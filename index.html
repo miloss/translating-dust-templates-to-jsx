@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+
+    <body>
+
+        <input type="radio" name="switch" id="switch-html" checked="checked" onclick="show('original')" />
+        <label for="switch-html">Original</label>
+
+        <input type="radio" name="switch" id="switch-jsx" onclick="show('translated')"/>
+        <label for="switch-jsx">Translated</label>
+
+        <pre class="prettyprint" id="example-dust">&lt;div class="encounters {?isExpanded}is-expanded{/isExpanded}"&gt;
+
+    {?showTooltip}
+    &lt;div class="tooltip"&gt;
+        &lt;span&gt;{#_t}{encounters_tooltip}{/_t}&lt;/span&gt;
+        &lt;div class="icon"&gt;
+            {@Icon name="icon-encounters" size="stretch" /}
+        &lt;/div&gt;
+    &lt;/div&gt;
+    {/showTooltip}
+
+    &lt;div class="images"&gt;
+        {#images}
+        &lt;img src="{src}"&gt;
+        &lt;input type="radio" id="{id}" {?selected}checked{/selected} /&gt;
+        &lt;label for="showme-{id}"&gt;
+            {name}
+        &lt;/label&gt;
+        {/images}
+    &lt;/div&gt;
+
+    &lt;div class="footer"&gt;
+        {! encounters-footer template will be injected here !}
+    &lt;/div&gt;
+
+&lt;/div&gt;</pre>
+
+        <pre class="prettyprint" id="example-jsx" style="display: none">&lt;div className="encounters {props.isExpanded ? 'is-expanded' : ''}"&gt;
+
+    {props.showTooltip ?
+        &lt;div className="tooltip"&gt;
+            &lt;span&gt;{i18n.get('encounters_tooltip')}&lt;/span&gt;
+            &lt;div className="icon"&gt;
+                &lt;Icon name="icon-encounters" size="stretch" /&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+     : null}
+
+    &lt;div className="images"&gt;
+        {props.images.map(item =&gt;
+            &lt;img src={item.src}&gt;
+            &lt;input type="radio" id={`showme-${item.id}`} defaultChecked={item.selected ? true : undefined} /&gt;
+            &lt;label htmlFor={`showme-${item.id}`}&gt;
+                {item.name}
+            &lt;/label&gt;
+        )}
+    &lt;/div&gt;
+
+    &lt;div className="footer"&gt;
+        {/* encounters-footer template will be injected here */}
+    &lt;/div&gt;
+
+&lt;/div&gt;</pre>
+
+        <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+        <script>
+         function show(id) {
+             if (id === 'original') {
+                 document.getElementById('example-dust').style.display = 'block';
+                 document.getElementById('example-jsx').style.display = 'none';
+             }
+             if (id === 'translated') {
+                 document.getElementById('example-dust').style.display = 'none';
+                 document.getElementById('example-jsx').style.display = 'block';
+             }
+         }
+        </script>
+    </body>
+</html>
+
